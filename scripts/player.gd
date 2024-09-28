@@ -1,5 +1,5 @@
 extends CharacterBody2D
-
+#test commit v2
 const SPEED = 100.0
 var direction = "down"
 
