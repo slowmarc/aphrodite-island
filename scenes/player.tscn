@@ -425,13 +425,13 @@ y_sort_enabled = true
 collision_layer = 3
 script = ExtResource("1_he1mv")
 
-[node name="animation" type="AnimatedSprite2D" parent="."]
+[node name="animation_player" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_n4lwu")
 animation = &"side_attack"
 frame_progress = 0.663622
 offset = Vector2(0, -15)
 
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
+[node name="collision" type="CollisionShape2D" parent="."]
 position = Vector2(0, -2)
 shape = SubResource("CircleShape2D_rk8ig")
 
@@ -442,12 +442,9 @@ position = Vector2(1, -7)
 shape = SubResource("CircleShape2D_mcfdg")
 one_way_collision_margin = 63.5
 
-[node name="damage_cooldown" type="Timer" parent="."]
-
 [node name="attack_cooldown" type="Timer" parent="."]
 wait_time = 0.75
 
 [connection signal="body_entered" from="hitbox" to="." method="_on_hitbox_body_entered"]
 [connection signal="body_exited" from="hitbox" to="." method="_on_hitbox_body_exited"]
-[connection signal="timeout" from="damage_cooldown" to="." method="_on_damage_cooldown_timeout"]
 [connection signal="timeout" from="attack_cooldown" to="." method="_on_attack_cooldown_timeout"]

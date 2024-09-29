@@ -109,7 +109,4 @@ tile_set = SubResource("TileSet_nljcf")
 position = Vector2(72, 78)
 
 [node name="slime" parent="." instance=ExtResource("5_1qn0n")]
-position = Vector2(226, 151)
-
-[node name="slime2" parent="." instance=ExtResource("5_1qn0n")]
 position = Vector2(114, 26)
