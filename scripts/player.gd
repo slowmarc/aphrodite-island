@@ -1,66 +1,88 @@
-extends CharacterBody2D
+class_name Player
+extends Entity
 
-const SPEED = 100.0
-var direction = "down"
+func _init(speed: int = 100, health: int = 20, damage: int = 10, current_direction: Direction = Direction.DOWN) -> void:
+	# Call the parent class constructor
+	super(speed, health, damage, current_direction)
+
+
+func _ready() -> void:
+	print("Player is ready with speed:", speed, "health:", health, "damage:", damage)
+
 
 func _physics_process(delta):
-	player_movement(delta)
+	handle_movement_input()
+	handle_attack_input()
 
-func player_movement(delta):
+
+func handle_movement_input() -> void:
 	if Input.is_action_pressed("ui_right"):
-		direction = "right"
-		play_animation(1)
-		
-		velocity.x = SPEED
-		velocity.y = 0
+		move(Direction.RIGHT)
 	elif Input.is_action_pressed("ui_left"):
-		direction = "left"
-		play_animation(1)
-
-		velocity.x = -SPEED
-		velocity.y = 0
+		move(Direction.LEFT)
 	elif Input.is_action_pressed("ui_down"):
-		direction = "down"
-		play_animation(1)
-
-		velocity.x = 0
-		velocity.y = SPEED
+		move(Direction.DOWN)
 	elif Input.is_action_pressed("ui_up"):
-		direction = "up"
-		play_animation(1)
-
-		velocity.x = 0
-		velocity.y = -SPEED
+		move(Direction.UP)
 	else:
-		play_animation(0)
-		
-		velocity.x = 0
-		velocity.y = 0
-	
-	move_and_slide()
+		stop()
 
-func play_animation(movement):
-	var animation = $AnimatedSprite2D2
+
+func handle_attack_input() -> void:
+	if not Input.is_action_pressed("attack") or not can_attack:
+		return
 	
-	if direction == "right":
-		animation.flip_h = false
-		if movement == 0:
-			animation.play("side_idle")
-		elif movement == 1:
-			animation.play("side_walk")
-	elif direction == "left":
-		animation.flip_h = true
-		if movement == 0:
-			animation.play("side_idle")
-		elif movement == 1:
-			animation.play("side_walk")
-	elif direction == "down":
-		if movement == 0:
-			animation.play("front_idle")
-		elif movement == 1:
-			animation.play("front_walk")
-	elif direction == "up":
-		if movement == 0:
-			animation.play("back_idle")
-		elif movement == 1:
-			animation.play("back_walk")
+	attack()
+	
+#
+#func _on_hitbox_body_entered(body: Node2D) -> void:
+	#if body.has_method("attack_player"):
+		##enemy_in_attack_range = true
+#
+#
+#func _on_hitbox_body_exited(body: Node2D) -> void:
+	#if body.has_method("attack_player"):
+		##enemy_in_attack_range = false
+#
+#
+#func attack_enemy():
+	#pass
+#
+#
+#func play_attack_animation():
+	#if not Input.is_action_pressed("attack"):
+		#return
+#
+	#is_attack_in_progress = true
+	#global.is_player_attacking = true
+	#$attack_cooldown.start()
+	#match direction:
+		#Direction.RIGHT:
+			#$animation.flip_h = true
+			#$animation.play("side_attack")
+		#Direction.LEFT:
+			#$animation.flip_h = false
+			#$animation.play("side_attack")
+		#Direction.DOWN:
+			#$animation.play("front_attack")
+		#Direction.UP:
+			#$animation.play("back_attack")
+#
+#
+#func enemy_attack():
+	#if not enemy_attack_cooldown:
+		#if enemy_in_attack_range:
+			#health -= 5
+			#
+			#enemy_attack_cooldown = true
+			#$damage_cooldown.start()
+#
+#
+#func _on_damage_cooldown_timeout() -> void:
+	#enemy_attack_cooldown = false
+#
+#
+#func _on_attack_cooldown_timeout() -> void:
+	#$attack_cooldown.stop()
+	#global.is_player_attacking = false
+	#is_attack_in_progress = false
